@@ -1,5 +1,18 @@
 package com.dollarsbank.model;
 
-public class CheckingAccount {
+import java.math.BigDecimal;
 
+public class CheckingAccount extends Accounts{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4717902358356942342L;
+
+	public CheckingAccount(BigDecimal balance) {
+		super(balance);
+		
+	}
+
+	
 }
