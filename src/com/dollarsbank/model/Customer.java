@@ -24,21 +24,21 @@ public class Customer implements Serializable {
 	private ArrayList<String> transaction;
 
 	public Customer(String name, String phonenumber, String address, String username, String password,
-			CheckingAccount checkingAccount, SavingsAccount savingsAccount, ArrayList<String> transaction) {
+			BigDecimal firstDeposit, BigDecimal initialSavings) {
 		super();
 		this.name = name;
 		this.phonenumber = phonenumber;
 		this.address = address;
 		this.username = username;
 		this.password = password;
-		this.checkingAccount = checkingAccount;
-		this.savingsAccount = savingsAccount;
-		this.transaction = transaction;
+		this.checkingAccount = new CheckingAccount(firstDeposit);
+		this.savingsAccount = new SavingsAccount(initialSavings);
+		
 	}
 	
 	// customer constutor for after the users has loged in.
 	public Customer(String name, String phonenumber, String address, String username, String password,
-			BigDecimal firstDeposit, BigDecimal initialSavings, ArrayList<String> transaction) {
+			BigDecimal firstDeposit, BigDecimal initialSavings, ArrayList<String> transactions) {
 		super();
 		this.name = name;
 		this.phonenumber = phonenumber;
