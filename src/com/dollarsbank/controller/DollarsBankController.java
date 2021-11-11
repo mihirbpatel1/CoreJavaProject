@@ -10,6 +10,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import javax.lang.model.element.NestingKind;
+import javax.swing.TransferHandler;
 
 import com.dollarsbank.model.Accounts;
 import com.dollarsbank.model.Customer;
@@ -53,7 +54,7 @@ public class DollarsBankController implements ColorsUtility  {
 						String deposit = DataGeneratorUtility.formatDollars(decimal);
 						
 						ArrayList<String> transaction = new ArrayList<String>();
-						transaction.add("Initial Deposit - Deposit Amount: " + deposit + " into Checking - \nChecking Balance: " + balance + 
+						transaction.add("Initial Deposit - Deposit Amount: " + deposit + " into Checking - \nChecking Account Balance: " + balance + 
 								" - as on " + newDate + " " + LocalTime.now());
 						
 						customer.setTransaction(transaction);
@@ -84,7 +85,7 @@ public class DollarsBankController implements ColorsUtility  {
 				
 								customerPage(customer, newDate);
 							}else {
-								System.out.println(ANSI_RED + "Invalid Credentials. Try Again!");
+								System.out.println(ANSI_RED + "Invaild Input");
 							}
 						}
 					}else if (select.equals("3")) {
@@ -134,27 +135,27 @@ public class DollarsBankController implements ColorsUtility  {
 							}
 							
 							
-							BigDecimal dep = ConsolePrinterUtility.depositAmount(scanner);
-							String deposit = DataGeneratorUtility.formatDollars(dep);
+							BigDecimal amountDeposite = ConsolePrinterUtility.depositAmount(scanner);
+							String deposit = DataGeneratorUtility.formatDollars(amountDeposite);
 							
 							//Deposit to checking
 							if (account.equals("1")) {
 								BigDecimal checking = customer.getCheckingAccount().getBalance();
-								customer.getCheckingAccount().setBalance(checking.add(dep));
+								customer.getCheckingAccount().setBalance(checking.add(amountDeposite));
 								
 								String balance = DataGeneratorUtility.formatDollars(customer.getCheckingAccount().getBalance());
 								
-								transaction.add("Deposit into Checking - Deposit Amount: " + deposit + " - \nChecking Balance: " + balance + 
+								transaction.add("Deposit into Checking - Deposit Amount: " + deposit + " - \nChecking Account Balance: " + balance + 
 											" - as on " + newDate + " " + LocalTime.now());
 						
 								
 							//Deposit to savings	
 							} else if (account.equals("2")) {
 								BigDecimal savings = customer.getSavingsAccount().getBalance();
-								customer.getSavingsAccount().setBalance(savings.add(dep));
+								customer.getSavingsAccount().setBalance(savings.add(amountDeposite));
 								
 								String balance = DataGeneratorUtility.formatDollars(customer.getSavingsAccount().getBalance());
-								transaction.add("Deposit into Savings - Deposit Amount: " + deposit + " - \nSavings Balance: " + balance + 
+								transaction.add("Deposit into Savings - Deposit Amount: " + deposit + " - \nSavings Account Balance: " + balance + 
 											" - as on " + newDate + " " + LocalTime.now());
 
 							} else {
@@ -174,12 +175,12 @@ public class DollarsBankController implements ColorsUtility  {
 								if (account.equals("1") || account.equals("2")) {
 									accountValid = true;
 								} else {
-									System.out.println(ANSI_RED + "Invalid Selection. Expecting 1 or 2" + ANSI_RESET);
+									System.out.println(ANSI_RED + "Invaild Input" + ANSI_RESET);
 								}
 							}
 							
-							BigDecimal withd = ConsolePrinterUtility.withdrawAmount(scanner);
-							String withdraw = DataGeneratorUtility.formatDollars(withd);
+							BigDecimal amountWithdarwal = ConsolePrinterUtility.withdrawAmount(scanner);
+							String withdraw = DataGeneratorUtility.formatDollars(amountWithdarwal);
 							
 							
 							
@@ -188,11 +189,11 @@ public class DollarsBankController implements ColorsUtility  {
 								
 								BigDecimal checkingBalance = customer.getCheckingAccount().getBalance();
 								
-								if (withd.compareTo(checkingBalance) == 1) {
+								if (amountWithdarwal.compareTo(checkingBalance) == 1) {
 									System.out.println(ANSI_RED + "Insufficient funds for withdrawal amount");
 								} else {
 									
-									customer.getCheckingAccount().setBalance(checkingBalance.subtract(withd));
+									customer.getCheckingAccount().setBalance(checkingBalance.subtract(amountWithdarwal));
 									
 									String balance = DataGeneratorUtility.formatDollars(customer.getCheckingAccount().getBalance());
 									transaction.add("Withdraw from Checking - Withdraw Amount: " + withdraw + " - \nChecking Balance: " + 
@@ -205,15 +206,15 @@ public class DollarsBankController implements ColorsUtility  {
 								
 								BigDecimal savingsBalance = customer.getSavingsAccount().getBalance();
 								
-								if (withd.compareTo(savingsBalance) == 1) {
-									System.out.println(ANSI_RED + "Insufficient funds for withdrawal amount");
+								if (amountWithdarwal.compareTo(savingsBalance) == 1) {
+									System.out.println(ANSI_RED + "Insufficient Funds");
 								
 								} else {
-									customer.getSavingsAccount().setBalance(savingsBalance.subtract(withd));;
+									customer.getSavingsAccount().setBalance(savingsBalance.subtract(amountWithdarwal));;
 									
 									String balance = DataGeneratorUtility.formatDollars(customer.getSavingsAccount().getBalance());
-									transaction.add("Withdraw from Savings - Withdraw Amount: " + withdraw + 
-														" - \nSavings Balance: " + balance + " - as on " 
+									transaction.add("Withdraw from Savings - Amount of : " + withdraw + 
+														" - \nSavings Balance: " + balance + " - as of " 
 														+ newDate + " " + LocalTime.now());
 
 
@@ -232,53 +233,53 @@ public class DollarsBankController implements ColorsUtility  {
 								if (account.equals("1") || account.equals("2")) {
 									accountValid = true;
 								} else {
-									System.out.println(ANSI_RED + "Invalid Selection. Expecting 1 or 2" + ANSI_RESET);
+									System.out.println(ANSI_RED + "Invaild Input"  + ANSI_RESET);
 								}
 							}
 							
 							BigDecimal transfer =  new BigDecimal(ConsolePrinterUtility.transferAmount(scanner));
-							String transferAmt = DataGeneratorUtility.formatDollars(transfer);
+							String amountToTransfer = DataGeneratorUtility.formatDollars(transfer);
 							
 							
-							//1 = transfer from checking to savings
+							//Transfer from checking to savings
 							if (account.equals("1")) {
 								
 								if (transfer.compareTo(customer.getCheckingAccount().getBalance()) == 1) {
-									System.out.println(ANSI_RED + "Insufficient funds for withdrawal amount");
+									System.out.println(ANSI_RED + "Insufficient Funds");
 								} else {
-									BigDecimal checkingsBalance = customer.getCheckingAccount().getBalance();
-									BigDecimal savingsBalance = customer.getSavingsAccount().getBalance();
+									BigDecimal checkingsAccountBalance = customer.getCheckingAccount().getBalance();
+									BigDecimal savingsAccountBalance = customer.getSavingsAccount().getBalance();
 									
-									customer.getCheckingAccount().setBalance(checkingsBalance.subtract(transfer));
-									customer.getSavingsAccount().setBalance(savingsBalance.add(transfer));
+									customer.getCheckingAccount().setBalance(checkingsAccountBalance.subtract(transfer));
+									customer.getSavingsAccount().setBalance(savingsAccountBalance.add(transfer));
 									
 									String checking = DataGeneratorUtility.formatDollars(customer.getCheckingAccount().getBalance());
 									String savings = DataGeneratorUtility.formatDollars(customer.getSavingsAccount().getBalance());
-									transaction.add("Transfer funds from Checking->Savings - Transfer Amount: " + 
-														transferAmt + " - \nChecking Acct Balance: " + ANSI_GREEN + checking + ANSI_RESET + 
-														" - Savings Acct Balance: " + ANSI_GREEN + savings + ANSI_RESET + 
-														" - as on " + newDate + " " + LocalTime.now());
+									transaction.add("Transfer funds from Checking into Savings ----  Amount of : " + 
+														amountToTransfer + " - \nChecking Acct Balance: " + ANSI_GREEN + checking + ANSI_RESET + 
+														" Saving Account Balance: " + ANSI_GREEN + savings + ANSI_RESET + 
+														" - as of " + newDate + " " + LocalTime.now());
 
 									
 									customer.setTransaction(transaction);
 								}
-								
+							//Transfer from savings to Checking	
 							} else if (account.equals("2")) {
 								
 								if (transfer.compareTo(customer.getSavingsAccount().getBalance()) == 1) {
 									System.out.println(ANSI_RED + "Insufficient funds for withdrawal amount");
 								} else {
 									
-									BigDecimal savingsBalance = customer.getSavingsAccount().getBalance();
-									BigDecimal checkingsBalance = customer.getCheckingAccount().getBalance();
+									BigDecimal savingsAccountBalance = customer.getSavingsAccount().getBalance();
+									BigDecimal checkingsAccountBalance = customer.getCheckingAccount().getBalance();
 									
-									customer.getSavingsAccount().setBalance(savingsBalance.subtract(transfer));
-									customer.getCheckingAccount().setBalance(checkingsBalance.add(transfer));
+									customer.getSavingsAccount().setBalance(savingsAccountBalance.subtract(transfer));
+									customer.getCheckingAccount().setBalance(checkingsAccountBalance.add(transfer));
 									
 									String checking = DataGeneratorUtility.formatDollars(customer.getCheckingAccount().getBalance());
 									String savings = DataGeneratorUtility.formatDollars(customer.getSavingsAccount().getBalance());
-									transaction.add("Transfer funds from Savings->Checking - Transfer Amount: " + 
-														transferAmt + " - \nSavings Acct Balance: " + savings + 
+									transaction.add("Transfer funds from Savings into Checking - Amount of: " + 
+														amountToTransfer + " - \nSavings Acct Balance: " + savings + 
 														" - Checking Acct Balance: " + checking + 
 														" - as on " + newDate + " " + LocalTime.now());
 				
@@ -288,11 +289,11 @@ public class DollarsBankController implements ColorsUtility  {
 							}
 							
 							
-						//Last 5 transactions
+						// 5 Recent transactions
 						} else if (select.equals("4")) {
 							ConsolePrinterUtility.lastFiveTrans(transaction);									
 						
-						//Customer Information
+						//Customer Profile
 						} else if (select.equals("5")) {
 							String formattedUserInfo = DataGeneratorUtility.formatUserInfo(customer);
 							
@@ -310,7 +311,7 @@ public class DollarsBankController implements ColorsUtility  {
 						
 						
 					} catch (InputMismatchException e){
-						System.out.println(ANSI_RED + "Invalid input, expecting number");
+						System.out.println(ANSI_RED + "Invalid input");
 					}
 			}
 			
