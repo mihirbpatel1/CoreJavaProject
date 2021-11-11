@@ -80,17 +80,17 @@ public class ConsolePrinterUtility implements ColorsUtility{
 		String password = "";
 		
 		System.out.println(ANSI_BLUE + "\n" + dashboard("create") + ANSI_RESET);
-		System.out.println("Customer Name:" + ANSI_GREEN);
+		System.out.println("Customer Name:" + ANSI_CYAN);
 		String name = sc.nextLine();
-		System.out.println(ANSI_RESET+ "Customer Address" + ANSI_GREEN);
+		System.out.println(ANSI_RESET+ "Customer Address" + ANSI_CYAN);
 		String address = sc.nextLine();
-		System.out.println(ANSI_RESET+ "Customer Phone" + ANSI_GREEN);
+		System.out.println(ANSI_RESET+ "Customer Phone" + ANSI_CYAN);
 		String phone = sc.nextLine();
 		
 		
 		
 		while(!userNameValid) {
-			System.out.println(ANSI_RESET + "Username:" + ANSI_GREEN);
+			System.out.println(ANSI_RESET + "Username:" + ANSI_CYAN);
 			userName = sc.nextLine();
 			
 			String userNameMsg = InputValidation.userNameValidation(userName);
@@ -124,7 +124,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 		
 	
 	public static String createPassword(Scanner sc) {
-		System.out.println(ANSI_RESET + "Password: (6 Characters with Lower case , Upper case and a Number)" + ANSI_GREEN);
+		System.out.println(ANSI_RESET + "Password: (8 Characters with Lower, Upper & Special)" + ANSI_CYAN);
 		String password = sc.nextLine();
 		return password;
 	}

@@ -8,23 +8,23 @@ public class InputValidation {
 public static String passwordValidation(String password) {
 		
 		int count = 0;
-		String notStrong = "";
+		String validatePassword = "";
 
-		if (password.length() < 6) {
-			count = 6 - password.length();
-			notStrong += "Minimum required length is 6 characters. Please add " + count + " characters";
+		if (password.length() < 8) {
+			count = 8 - password.length();
+			validatePassword += "8 characters. Please add " + count + " characters";
 		}
 
 		String numbers = "0123456789";
 		String lower_case = "abcdefghijklmnopqrstuvwxyz";
 		String upper_case = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		
+		String special_characters = "!@#$%^&*()-+><?/{}[]";
 
 		HashMap<Character, Boolean> map = new HashMap<>();
 		map.put('n', false);
 		map.put('l', false);
 		map.put('u', false);
-		
+		map.put('s', false);
 
 
 		for (int i = 0; i < password.length(); i++) {
@@ -34,7 +34,9 @@ public static String passwordValidation(String password) {
 				map.replace('l', true);
 			} else if (upper_case.contains(password.substring(i, i + 1))) {
 				map.replace('u', true);
-			} 
+			} else if (special_characters.contains(password.substring(i, i + 1))) {
+				map.replace('s', true);
+			}
 		}
 		
 		
@@ -42,19 +44,21 @@ public static String passwordValidation(String password) {
 		for (char s : set) {
 			if (map.get(s) == false) {
 				if (s == 'n') {
-					notStrong += "\nMissing a number.";
+					validatePassword += "\nMissing a number.";
 				} else if (s == 'l') {
-					notStrong += "\nMissing a lower case letter.";
+					validatePassword += "\nMissing a lower case letter.";
 				} else if (s == 'u') {
-					notStrong += "\nMissing a upper case letter.";
-				} 
+					validatePassword += "\nMissing a upper case letter.";
+				} else if (s == 's') {
+					validatePassword += "\nMissing a special character - !@#$%^&*()-+";
+				}
 			}
 		}
 		
-		if (notStrong.length()==0) {
+		if (validatePassword.length()==0) {
 			return "strong";
 		} else {
-			return notStrong;
+			return validatePassword;
 		}
 		
 	}
@@ -62,11 +66,11 @@ public static String passwordValidation(String password) {
 	
 	static String userNameValidation(String userName) {
 		int count = 0;
-		String userNameStrong = "";
+		String validateUserName = "";
 		
-		if (userName.length() < 6) {
+		if (userName.length() < 10) {
 			count = 10 - userName.length();
-			userNameStrong += "Minimum required length is 6 characters. Please add " + count + " characters";
+			validateUserName += "Minimum required length is 10 characters. Please add " + count + " characters";
 		}
 		
 		HashMap<Character, Boolean> map = new HashMap<>();
@@ -77,23 +81,27 @@ public static String passwordValidation(String password) {
 			map.replace('l', true);
 		}
 
-		
+		if (userName.matches(".*[0-9].*")) {
+			map.replace('n', true);
+		}
 
 
 		
 		Set<Character> set = map.keySet();
 		for (char s : set) {
 			if (map.get(s) == false) {
-				if (s == 'l') {
-					userNameStrong += "\nMissing a lower case letter.";
+				if (s == 'n') {
+					validateUserName += "\nMissing a number.";
+				} else if (s == 'l') {
+					validateUserName += "\nMissing a lower case letter.";
 				} 
 			}
 		}
 		
-		if (userNameStrong.length() == 0) {
+		if (validateUserName.length() == 0) {
 			return "strong";
 		} else {
-			return userNameStrong;
+			return validateUserName;
 		}
 	}
 }

@@ -39,7 +39,7 @@ public class DollarsBankController implements ColorsUtility  {
 				try {
 					
 					ConsolePrinterUtility.welcome();
-					System.out.println(ANSI_YELLOW + "\nEnter Choice (1,2 or 3)" + ANSI_RESET);
+					System.out.println(ANSI_GREEN + "\nEnter Choice (1,2 or 3)" + ANSI_RESET);
 					String select = scanner.nextLine();
 					
 					if (select.equals("1")) {
@@ -113,7 +113,7 @@ public class DollarsBankController implements ColorsUtility  {
 			while(!done) {
 				try {
 						ConsolePrinterUtility.customerPage();
-						System.out.println(ANSI_YELLOW + "Enter Choice (1, 2, 3, 4, 5 or 6" + ANSI_RESET);
+						System.out.println(ANSI_GREEN + "Enter Choice (1, 2, 3, 4, 5 or 6" + ANSI_RESET);
 						String select = scanner.nextLine();
 						
 						
