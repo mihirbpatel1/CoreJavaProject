@@ -5,11 +5,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import javax.lang.model.element.NestingKind;
 
-
+import com.dollarsbank.model.Accounts;
 import com.dollarsbank.model.Customer;
 import com.dollarsbank.utility.ColorsUtility;
 import com.dollarsbank.utility.ConsolePrinterUtility;
@@ -36,7 +38,7 @@ public class DollarsBankController implements ColorsUtility  {
 				try {
 					
 					ConsolePrinterUtility.welcome();
-					System.out.print(YELLOW + "\nEnter Selection (1,2,3)" + RESET);
+					System.out.println(ANSI_YELLOW + "\nEnter Choice (1,2 or 3)" + ANSI_RESET);
 					String select = scanner.nextLine();
 					
 					if (select.equals("1")) {
@@ -82,7 +84,7 @@ public class DollarsBankController implements ColorsUtility  {
 				
 								customerPage(customer, newDate);
 							}else {
-								System.out.println(RED + "Invalid Credentials. Try Again!");
+								System.out.println(ANSI_RED + "Invalid Credentials. Try Again!");
 							}
 						}
 					}else if (select.equals("3")) {
@@ -90,21 +92,227 @@ public class DollarsBankController implements ColorsUtility  {
 						System.out.println("\nExting Good Bye!!!!");
 						System.exit(0);
 					}else {
-						System.out.println(RED + "Invaild Input");
+						System.out.println(ANSI_RED + "Invaild Input");
 						welcome();
 					}
 
 					
 				} catch (InputMismatchException e) {
-					System.out.println(RED + "Please Input a Number");
+					System.out.println(ANSI_RED + "Please Input a Number");
 				}
 			}
 			scanner.close();
 		}
 
-		private static void customerPage(Customer customer, String newDate) {
+		public static void customerPage(Customer customer, String newDate) {
 			Scanner scanner = new Scanner(System.in);
+			ArrayList<String> transaction = customer.getTransaction();
+			boolean done = false;
 			
+			while(!done) {
+				try {
+						ConsolePrinterUtility.customerPage();
+						System.out.println(ANSI_YELLOW + "Enter Choice (1, 2, 3, 4, 5 or 6" + ANSI_RESET);
+						String select = scanner.nextLine();
+						
+						
+						// Customer Deposit
+						
+						if (select.equals("1")) {
+							
+							boolean accountValid = false;
+							String account= "";
+							while(!accountValid) {
+								
+								
+								account = ConsolePrinterUtility.depositAccount(scanner);
+								if (account.equals("1") || account.equals("2")) {
+									accountValid = true;
+								} else {
+									System.out.println(ANSI_RED + "Invalid Selection. Expecting 1 or 2" + ANSI_RESET);
+								}
+							}
+							
+							
+							BigDecimal dep = ConsolePrinterUtility.depositAmount(scanner);
+							String deposit = DataGeneratorUtility.formatDollars(dep);
+							
+							//Deposit to checking
+							if (account.equals("1")) {
+								BigDecimal checking = customer.getCheckingAccount().getBalance();
+								customer.getCheckingAccount().setBalance(checking.add(dep));
+								
+								String balance = DataGeneratorUtility.formatDollars(customer.getCheckingAccount().getBalance());
+								
+								transaction.add("Deposit into Checking - Deposit Amount: " + deposit + " - \nChecking Balance: " + balance + 
+											" - as on " + newDate + " " + LocalTime.now());
+						
+								
+							//Deposit to savings	
+							} else if (account.equals("2")) {
+								BigDecimal savings = customer.getSavingsAccount().getBalance();
+								customer.getSavingsAccount().setBalance(savings.add(dep));
+								
+								String balance = DataGeneratorUtility.formatDollars(customer.getSavingsAccount().getBalance());
+								transaction.add("Deposit into Savings - Deposit Amount: " + deposit + " - \nSavings Balance: " + balance + 
+											" - as on " + newDate + " " + LocalTime.now());
+
+							} else {
+								
+							}
+							
+							
+							
+						//Withdraw
+						} else if (select.equals("2")) {
+							
+							boolean accountValid = false;
+							String account= "";
+							while(!accountValid) {
+								
+								account = ConsolePrinterUtility.withdrawAccount(scanner);
+								if (account.equals("1") || account.equals("2")) {
+									accountValid = true;
+								} else {
+									System.out.println(ANSI_RED + "Invalid Selection. Expecting 1 or 2" + ANSI_RESET);
+								}
+							}
+							
+							BigDecimal withd = ConsolePrinterUtility.withdrawAmount(scanner);
+							String withdraw = DataGeneratorUtility.formatDollars(withd);
+							
+							
+							
+							//Withdraw from checking
+							if (account.equals("1")) {
+								
+								BigDecimal checkingBalance = customer.getCheckingAccount().getBalance();
+								
+								if (withd.compareTo(checkingBalance) == 1) {
+									System.out.println(ANSI_RED + "Insufficient funds for withdrawal amount");
+								} else {
+									
+									customer.getCheckingAccount().setBalance(checkingBalance.subtract(withd));
+									
+									String balance = DataGeneratorUtility.formatDollars(customer.getCheckingAccount().getBalance());
+									transaction.add("Withdraw from Checking - Withdraw Amount: " + withdraw + " - \nChecking Balance: " + 
+														balance + " - as on " + newDate + " " + LocalTime.now());
+									
+								}
+								
+							//Withdraw from savings
+							} else if (account.equals("2")) {
+								
+								BigDecimal savingsBalance = customer.getSavingsAccount().getBalance();
+								
+								if (withd.compareTo(savingsBalance) == 1) {
+									System.out.println(ANSI_RED + "Insufficient funds for withdrawal amount");
+								
+								} else {
+									customer.getSavingsAccount().setBalance(savingsBalance.subtract(withd));;
+									
+									String balance = DataGeneratorUtility.formatDollars(customer.getSavingsAccount().getBalance());
+									transaction.add("Withdraw from Savings - Withdraw Amount: " + withdraw + 
+														" - \nSavings Balance: " + balance + " - as on " 
+														+ newDate + " " + LocalTime.now());
+
+
+							}
+								customer.setTransaction(transaction);	
+								
+							}
+							
+						//Transfer funds
+						} else if (select.equals("3")) {
+							boolean accountValid = false;
+							String account= "";
+							while(!accountValid) {
+								
+								account = ConsolePrinterUtility.transferAccount(scanner);
+								if (account.equals("1") || account.equals("2")) {
+									accountValid = true;
+								} else {
+									System.out.println(ANSI_RED + "Invalid Selection. Expecting 1 or 2" + ANSI_RESET);
+								}
+							}
+							
+							BigDecimal transfer =  new BigDecimal(ConsolePrinterUtility.transferAmount(scanner));
+							String transferAmt = DataGeneratorUtility.formatDollars(transfer);
+							
+							
+							//1 = transfer from checking to savings
+							if (account.equals("1")) {
+								
+								if (transfer.compareTo(customer.getCheckingAccount().getBalance()) == 1) {
+									System.out.println(ANSI_RED + "Insufficient funds for withdrawal amount");
+								} else {
+									BigDecimal checkingsBalance = customer.getCheckingAccount().getBalance();
+									BigDecimal savingsBalance = customer.getSavingsAccount().getBalance();
+									
+									customer.getCheckingAccount().setBalance(checkingsBalance.subtract(transfer));
+									customer.getSavingsAccount().setBalance(savingsBalance.add(transfer));
+									
+									String checking = DataGeneratorUtility.formatDollars(customer.getCheckingAccount().getBalance());
+									String savings = DataGeneratorUtility.formatDollars(customer.getSavingsAccount().getBalance());
+									transaction.add("Transfer funds from Checking->Savings - Transfer Amount: " + 
+														transferAmt + " - \nChecking Acct Balance: " + ANSI_GREEN + checking + ANSI_RESET + 
+														" - Savings Acct Balance: " + ANSI_GREEN + savings + ANSI_RESET + 
+														" - as on " + newDate + " " + LocalTime.now());
+
+									
+									customer.setTransaction(transaction);
+								}
+								
+							} else if (account.equals("2")) {
+								
+								if (transfer.compareTo(customer.getSavingsAccount().getBalance()) == 1) {
+									System.out.println(ANSI_RED + "Insufficient funds for withdrawal amount");
+								} else {
+									
+									BigDecimal savingsBalance = customer.getSavingsAccount().getBalance();
+									BigDecimal checkingsBalance = customer.getCheckingAccount().getBalance();
+									
+									customer.getSavingsAccount().setBalance(savingsBalance.subtract(transfer));
+									customer.getCheckingAccount().setBalance(checkingsBalance.add(transfer));
+									
+									String checking = DataGeneratorUtility.formatDollars(customer.getCheckingAccount().getBalance());
+									String savings = DataGeneratorUtility.formatDollars(customer.getSavingsAccount().getBalance());
+									transaction.add("Transfer funds from Savings->Checking - Transfer Amount: " + 
+														transferAmt + " - \nSavings Acct Balance: " + savings + 
+														" - Checking Acct Balance: " + checking + 
+														" - as on " + newDate + " " + LocalTime.now());
+				
+									
+									customer.setTransaction(transaction);
+								}
+							}
+							
+							
+						//Last 5 transactions
+						} else if (select.equals("4")) {
+							ConsolePrinterUtility.lastFiveTrans(transaction);									
+						
+						//Customer Information
+						} else if (select.equals("5")) {
+							String formattedUserInfo = DataGeneratorUtility.formatUserInfo(customer);
+							
+							ConsolePrinterUtility.customerInformation(formattedUserInfo);
+						
+							
+						//Log off	
+						} else if (select.equals("6")) {
+							
+							FileStorageUtility.saveCustomer(customer);
+							
+							System.out.println("Logging off...");
+							done = true;
+						} 
+						
+						
+					} catch (InputMismatchException e){
+						System.out.println(ANSI_RED + "Invalid input, expecting number");
+					}
+			}
 			
 		}
 }

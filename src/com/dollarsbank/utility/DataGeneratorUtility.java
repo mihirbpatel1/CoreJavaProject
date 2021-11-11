@@ -35,15 +35,15 @@ public class DataGeneratorUtility implements ColorsUtility {
 		String checking = DataGeneratorUtility.formatDollars(customer.getCheckingAccount().getBalance());
 		String savings = DataGeneratorUtility.formatDollars(customer.getSavingsAccount().getBalance());
 		
-		String customerInfo = CYAN + "Customer Profile" + RESET +
+		String customerInfo = ANSI_CYAN + "Customer Profile" + ANSI_RESET +
 							"\nName: " + customer.getName() +
 							"\nAddress: " + customer.getAddress() +
 							"\nPhone Number: " + customer.getPhonenumber() +
 							"\nUsername: " + customer.getUsername() + 
 							"\nPassword: " + customer.getPassword() + 
-							CYAN + "\n\nAccount Info" + RESET +
-							"\nChecking Balance: " + GREEN + checking + RESET + 
-							"\nSavings Balance: " + GREEN + savings + RESET;
+							ANSI_CYAN + "\n\nAccount Info" + ANSI_RESET +
+							"\nChecking Balance: " + ANSI_GREEN + checking + ANSI_RESET + 
+							"\nSavings Balance: " + ANSI_GREEN + savings + ANSI_RESET;
 		
 		return customerInfo;
 		

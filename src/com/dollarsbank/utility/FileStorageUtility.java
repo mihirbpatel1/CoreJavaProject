@@ -12,8 +12,8 @@ import java.io.PrintWriter;
 import com.dollarsbank.model.Customer;
 
 
-
 public class FileStorageUtility {
+	
 	public static File createCustomerFile() {
 		File file = new File("customer.data");
 		
@@ -60,10 +60,10 @@ public class FileStorageUtility {
 				BufferedReader br = new BufferedReader(fr);
 			){
 			
-			String string = new String("");
+			String sb = new String("");
 			
-			while((string = br.readLine()) != null){
-				details = string.split(": ");
+			while((sb = br.readLine()) != null){
+				details = sb.split(": ");
 				
 				if (login[0].equals(details[3])) {
 					if (login[1].equals(details[4])) {
@@ -85,4 +85,5 @@ public class FileStorageUtility {
 		
 		return details;
 	}
-}
+	
+}	

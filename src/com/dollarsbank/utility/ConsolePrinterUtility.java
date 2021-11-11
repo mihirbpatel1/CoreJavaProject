@@ -67,7 +67,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 				"\n 3. Exit";
 		
 		
-		System.out.println(BLUE + "\n" + dashboard("welcome") + RESET + welcome);
+		System.out.println(ANSI_BLUE + "\n" + dashboard("welcome") + ANSI_RESET + welcome);
 	}
 	
 	
@@ -79,18 +79,18 @@ public class ConsolePrinterUtility implements ColorsUtility{
 		String userName = "";
 		String password = "";
 		
-		System.out.println(BLUE + "\n" + dashboard("create") + RESET);
-		System.out.println("Customer Name:" + GREEN);
+		System.out.println(ANSI_BLUE + "\n" + dashboard("create") + ANSI_RESET);
+		System.out.println("Customer Name:" + ANSI_GREEN);
 		String name = sc.nextLine();
-		System.out.println(RESET+ "Customer Address" + GREEN);
+		System.out.println(ANSI_RESET+ "Customer Address" + ANSI_GREEN);
 		String address = sc.nextLine();
-		System.out.println(RESET+ "Customer Phone" + GREEN);
+		System.out.println(ANSI_RESET+ "Customer Phone" + ANSI_GREEN);
 		String phone = sc.nextLine();
 		
 		
 		
 		while(!userNameValid) {
-			System.out.println(RESET + "Username:" + GREEN);
+			System.out.println(ANSI_RESET + "Username:" + ANSI_GREEN);
 			userName = sc.nextLine();
 			
 			String userNameMsg = InputValidation.userNameValidation(userName);
@@ -98,7 +98,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 			if (userNameMsg.equals("strong")) {
 				userNameValid = true;
 			} else {
-				System.out.println(RED + userNameMsg + RESET);
+				System.out.println(ANSI_RED + userNameMsg + ANSI_RESET);
 			}
 		}
 		
@@ -111,7 +111,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 			if (strong.equals("strong")) {
 				validPassword = true;
 			} else {
-				System.out.println(RED + strong + RESET);
+				System.out.println(ANSI_RED + strong + ANSI_RESET);
 			}
 		}
 		
@@ -124,7 +124,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 		
 	
 	public static String createPassword(Scanner sc) {
-		System.out.println(RESET + "Password: (8 Characters with Lower, Upper, and Special Char)" + GREEN);
+		System.out.println(ANSI_RESET + "Password: (8 Characters with Lower, Upper, and Special Char)" + ANSI_GREEN);
 		String password = sc.nextLine();
 		return password;
 	}
@@ -132,7 +132,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 	
 	public static BigDecimal initialDeposit(Scanner sc) {
 
-		System.out.println(RESET + "Initial Deposit Amount" + GREEN);
+		System.out.println(ANSI_RESET + "Initial Deposit Amount" + ANSI_GREEN);
 		BigDecimal initDeposit = new BigDecimal(sc.nextDouble());
 		sc.nextLine();
 		return initDeposit;
@@ -141,10 +141,10 @@ public class ConsolePrinterUtility implements ColorsUtility{
 	
 	public static String[] login(Scanner sc) {
 		String[] arr = new String[2];
-		System.out.println(BLUE + "\n" + dashboard("login") + RESET);
-		System.out.println("Username:" + GREEN);
+		System.out.println(ANSI_BLUE + "\n" + dashboard("login") + ANSI_RESET);
+		System.out.println("Username:" + ANSI_GREEN);
 		arr[0] = sc.nextLine();
-		System.out.println(RESET + "Password:" + GREEN);
+		System.out.println(ANSI_RESET + "Password:" + ANSI_GREEN);
 		arr[1] = sc.nextLine();
 	
 		return arr;
@@ -159,12 +159,12 @@ public class ConsolePrinterUtility implements ColorsUtility{
 				"\n 4. View 5 Recent Transactions" +
 				"\n 5. Display Customer Information" + 
 				"\n 6. Sign Out";
-		System.out.println(BLUE + "\n" + dashboard("customer") + RESET + customerPage);
+		System.out.println(ANSI_BLUE + "\n" + dashboard("customer") + ANSI_RESET + customerPage);
 	}
 	
 	
 	public static String depositAccount(Scanner sc) {
-		System.out.println(BLUE + "\n" + dashboard("deposit") + RESET);
+		System.out.println(ANSI_BLUE + "\n" + dashboard("deposit") + ANSI_RESET);
 		System.out.println("Choose account to deposit $:" +
 						"\n1. Checking" +
 						"\n2. Savings");
@@ -177,7 +177,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 	
 	public static BigDecimal depositAmount(Scanner sc) {
 		
-		System.out.println(RESET + "How much would you like to deposit?" + GREEN);
+		System.out.println(ANSI_RESET + "How much would you like to deposit?" + ANSI_GREEN);
 		BigDecimal amount = new BigDecimal(sc.nextDouble());
 		sc.nextLine();
 		
@@ -188,7 +188,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 	
 	public static String withdrawAccount(Scanner sc) {
 		
-		System.out.println(BLUE + "\n" + dashboard("withdraw") + RESET);
+		System.out.println(ANSI_BLUE + "\n" + dashboard("withdraw") + ANSI_RESET);
 		System.out.println("Choose account to withdraw $:" +
 				"\n1. Checking" +
 				"\n2. Savings");
@@ -199,7 +199,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 	
 	
 	public static BigDecimal withdrawAmount(Scanner sc) {
-		System.out.println(RESET + "How much would you like to withdraw?" + GREEN);
+		System.out.println(ANSI_RESET + "How much would you like to withdraw?" + ANSI_GREEN);
 		BigDecimal amount = new BigDecimal(sc.nextDouble());
 		sc.nextLine();
 		
@@ -208,7 +208,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 	
 	
 	public static String transferAccount(Scanner sc) {
-		System.out.println("\n" + BLUE + dashboard("transfer") + RESET);
+		System.out.println("\n" + ANSI_BLUE + dashboard("transfer") + ANSI_RESET);
 		System.out.println("Transfer from:");
 		System.out.println("1. Checkings" +
 						 "\n2. Savings");
@@ -218,14 +218,14 @@ public class ConsolePrinterUtility implements ColorsUtility{
 	
 	
 	public static String transferAmount(Scanner sc) {
-		System.out.println(YELLOW + "Transfer Amount:" + GREEN);
+		System.out.println(ANSI_YELLOW + "Transfer Amount:" + ANSI_GREEN);
 		String amount = sc.nextLine();
 		return amount;
 	}
 	
 	
 	public static void lastFiveTrans(ArrayList<String>  transactions) {
-		System.out.println(BLUE + "\n" +  dashboard("transactions") + RESET);
+		System.out.println(ANSI_BLUE + "\n" +  dashboard("transactions") + ANSI_RESET);
 		
 		int i = 0;
 		int j = transactions.size()-1;
@@ -246,7 +246,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 	
 	
 	public static void customerInformation(String info) {
-		System.out.println(BLUE + "\n" + dashboard("profile") + RESET);
+		System.out.println(ANSI_BLUE + "\n" + dashboard("profile") + ANSI_RESET);
 		System.out.println(info);
 	}
 
