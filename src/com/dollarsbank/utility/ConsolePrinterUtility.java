@@ -8,8 +8,8 @@ public class ConsolePrinterUtility implements ColorsUtility{
 	
 	public static String dashboard(String text) {
 		String string;
-			if (text.equals("Welcome")) {
-				string = "+-----------------------------+"
+			if (text.equals("welcome")) {
+				string = "+---------------------------+"
 						+"\n| DOLLARSBANK Welcomes You! |"
 						+"\n+---------------------------+";
 				return string;
@@ -124,7 +124,7 @@ public class ConsolePrinterUtility implements ColorsUtility{
 		
 	
 	public static String createPassword(Scanner sc) {
-		System.out.println(ANSI_RESET + "Password: (8 Characters with Lower, Upper, and Special Char)" + ANSI_GREEN);
+		System.out.println(ANSI_RESET + "Password: (6 Characters with Lower case , Upper case and a Number)" + ANSI_GREEN);
 		String password = sc.nextLine();
 		return password;
 	}
