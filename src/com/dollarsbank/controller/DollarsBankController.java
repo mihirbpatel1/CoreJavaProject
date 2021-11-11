@@ -59,7 +59,7 @@ public class DollarsBankController implements ColorsUtility  {
 						
 						customer.setTransaction(transaction);
 						
-						FileStorageUtility.saveCustomer(customer);
+						
 						customerPage(customer, newDate);
 					
 					//Login Page

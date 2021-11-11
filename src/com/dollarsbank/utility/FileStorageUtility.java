@@ -70,7 +70,7 @@ public class FileStorageUtility {
 						return details;
 					}
 				} else {
-					String[] fail = {"fail"};
+					String[] fail = {"error"};
 					return fail;
 				}
 				
