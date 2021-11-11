@@ -16,8 +16,8 @@ public static String passwordValidation(String password) {
 		}
 
 		String numbers = "0123456789";
-		String lower_case = "abcdefghijklmnopqrstuvwxyz";
-		String upper_case = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String lowerCase = "abcdefghijklmnopqrstuvwxyz";
+		String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		String special_characters = "!@#$%^&*()-+><?/{}[]";
 
 		HashMap<Character, Boolean> map = new HashMap<>();
@@ -30,9 +30,9 @@ public static String passwordValidation(String password) {
 		for (int i = 0; i < password.length(); i++) {
 			if (numbers.contains(password.substring(i, i + 1))) {
 				map.replace('n', true);
-			} else if (lower_case.contains(password.substring(i, i + 1))) {
+			} else if (lowerCase.contains(password.substring(i, i + 1))) {
 				map.replace('l', true);
-			} else if (upper_case.contains(password.substring(i, i + 1))) {
+			} else if (upperCase.contains(password.substring(i, i + 1))) {
 				map.replace('u', true);
 			} else if (special_characters.contains(password.substring(i, i + 1))) {
 				map.replace('s', true);
