@@ -5,19 +5,19 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-public class AppendingObjectOutputStream extends ObjectOutputStream {
+public class FileOutputStream extends ObjectOutputStream {
 
     private boolean append;
     private boolean initialized;
     private DataOutputStream dataOutput;
 
-    protected AppendingObjectOutputStream(boolean append) throws IOException, SecurityException {
+    protected FileOutputStream(boolean append) throws IOException, SecurityException {
         super();
         this.append = append;
         this.initialized = true;
     }
 
-    public AppendingObjectOutputStream(OutputStream out, boolean append) throws IOException {
+    public FileOutputStream(OutputStream out, boolean append) throws IOException {
         super(out);
         this.append = append;
         this.initialized = true;
