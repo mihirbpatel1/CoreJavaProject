@@ -21,21 +21,21 @@ public static String passwordValidation(String password) {
 		String special_characters = "!@#$%^&*()-+><?/{}[]";
 
 		HashMap<Character, Boolean> map = new HashMap<>();
-		map.put('n', false);
-		map.put('l', false);
-		map.put('u', false);
-		map.put('s', false);
+		map.put('1', false);
+		map.put('i', false);
+		map.put('A', false);
+		map.put('@', false);
 
 
 		for (int i = 0; i < password.length(); i++) {
 			if (numbers.contains(password.substring(i, i + 1))) {
-				map.replace('n', true);
+				map.replace('1', true);
 			} else if (lowerCase.contains(password.substring(i, i + 1))) {
-				map.replace('l', true);
+				map.replace('i', true);
 			} else if (upperCase.contains(password.substring(i, i + 1))) {
-				map.replace('u', true);
+				map.replace('A', true);
 			} else if (special_characters.contains(password.substring(i, i + 1))) {
-				map.replace('s', true);
+				map.replace('@', true);
 			}
 		}
 		
@@ -43,14 +43,14 @@ public static String passwordValidation(String password) {
 		Set<Character> set = map.keySet();
 		for (char s : set) {
 			if (map.get(s) == false) {
-				if (s == 'n') {
+				if (s == '1') {
 					validatePassword += "\nMissing a number.";
-				} else if (s == 'l') {
+				} else if (s == 'i') {
 					validatePassword += "\nMissing a lower case letter.";
-				} else if (s == 'u') {
+				} else if (s == 'A') {
 					validatePassword += "\nMissing a upper case letter.";
-				} else if (s == 's') {
-					validatePassword += "\nMissing a special character - !@#$%^&*()-+";
+				} else if (s == '@') {
+					validatePassword += "\nMissing a special character - !@#$%^&*()-+><?/{}[]";
 				}
 			}
 		}
@@ -74,15 +74,15 @@ public static String passwordValidation(String password) {
 		}
 		
 		HashMap<Character, Boolean> map = new HashMap<>();
-		map.put('n', false);
-		map.put('l', false);
+		map.put('1', false);
+		map.put('i', false);
 
 		if (userName.matches(".*[a-z].*")) {
-			map.replace('l', true);
+			map.replace('i', true);
 		}
 
 		if (userName.matches(".*[0-9].*")) {
-			map.replace('n', true);
+			map.replace('1', true);
 		}
 
 
@@ -90,9 +90,9 @@ public static String passwordValidation(String password) {
 		Set<Character> set = map.keySet();
 		for (char s : set) {
 			if (map.get(s) == false) {
-				if (s == 'n') {
+				if (s == '1') {
 					validateUserName += "\nMissing a number.";
-				} else if (s == 'l') {
+				} else if (s == 'i') {
 					validateUserName += "\nMissing a lower case letter.";
 				} 
 			}
